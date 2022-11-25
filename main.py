@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import time
 import random
 
@@ -34,7 +33,6 @@ class Cell:
         return res
 
 
-# @dataclass
 class CellContainer():
     cells: list[Cell]
     def __init__(self):
@@ -63,7 +61,9 @@ class CellContainer():
 
 
     def cells_with_only_one_candidate(self):
-        """If a cell contains only one candidate, remove that candidate from all other cells within container"""
+        """If a cell contains only one candidate, remove that candidate from all other cells within container
+        Return True if any was removed, else false
+        """
         changed = False
         for cell in self.cells:
             if cell.got():
@@ -84,11 +84,10 @@ class Box(CellContainer):
     pass
 
 
-with open('./puzzles/medium.txt', 'r') as f:
+with open('./puzzles/easy.txt', 'r') as f:
     START = random.choice(f.readlines())
 
 
-# @dataclass
 class Board:
     cells: list[Cell]
     rows: list[Row]
@@ -117,25 +116,34 @@ class Board:
             cell.col = col
             cell.box = box
 
-
-        for lis in [self.rows, self.cols, self.boxes]: # Print rows/cols/boxes
-            for item in lis:
-                print(item)
-            print()
+    def solved(self):
+        for cell in self.cells:
+            if not cell.got():
+                return False
+        return True
 
     def solve(self):
         changed = True
         while changed:
             changed = False
-            for container_list in [self.boxes + self.rows, self.cols]:
-                for container in container_list:
-                    if container.candidates_once_in_container() or container.cells_with_only_one_candidate():
-                        print(self)
-                        time.sleep(0.03)
-                        changed = True
+            for container in self.boxes + self.rows + self.cols:
+                if container.candidates_once_in_container():
+                    print('Candidate(s) appeared only once in container')
+                    changed = True
+                elif container.cells_with_only_one_candidate():
+                    print('Cell(s) contained only one candidate')
+                    changed = True
+
+                if changed:
+                    print(self)
+                    time.sleep(0.03)
+                    break
+
+        print(f"\nNo more changes possible. Board solved? {self.solved()}")
+
 
     def __repr__(self):
-        res = "\n" + "="*105
+        res = ""
         for i, cell in enumerate(self.cells):
             if i%9 == 0: # Spacing bw rows
                 res += "\n"
@@ -144,8 +152,7 @@ class Board:
             if (i%9) % 3 == 0: # Spacing bw every 3 cols
                 res += "   "
             res += str(cell) + "  " # Spacing bw cols
-        return res
-
+        return res + "\n" + "="*106
 
 
 def main():
