@@ -1,7 +1,6 @@
 from dataclasses import dataclass
-import random
 import time
-import uuid
+import random
 
 class Cell:
     def __init__(self, val=0, row=None, col=None, box=None):
@@ -84,9 +83,10 @@ class Col(CellContainer):
 class Box(CellContainer):
     pass
 
-START = """
-85...24..72......9..4.........1.7..23.5...9...4...........8..7..17..........36.4.
-"""
+
+with open('./puzzles/medium.txt', 'r') as f:
+    START = random.choice(f.readlines())
+
 
 # @dataclass
 class Board:
@@ -131,7 +131,7 @@ class Board:
                 for container in container_list:
                     if container.candidates_once_in_container() or container.cells_with_only_one_candidate():
                         print(self)
-                        time.sleep(0.05)
+                        time.sleep(0.03)
                         changed = True
 
     def __repr__(self):
