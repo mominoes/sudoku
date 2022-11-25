@@ -1,6 +1,8 @@
 import time
 import random
 
+
+
 class Cell:
     def __init__(self, val=0, row=None, col=None, box=None):
         self.candidates = set([val]) if val else set(range(1,10))
