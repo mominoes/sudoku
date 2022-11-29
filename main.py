@@ -69,9 +69,24 @@ class CellContainer():
         changed = False
         for cell in self.cells:
             if cell.got():
-                for other_cell in self.cells:
-                    if cell != other_cell:
-                        changed = changed or other_cell.remove(cell.get_single())
+                for other_cell in [x for x in self.cells if x != cell]:
+                    changed = changed or other_cell.remove(cell.get_single())
+        return changed
+
+    def naked_pairs(self):
+        """If any two cells contain only the same two candidates, remove those candidates from all other cells
+        Return True if any were removed, else false
+        """
+        changed = False
+        for cell in self.cells:
+            if len(cell.candidates) == 2:
+                for other_cell in [x for x in self.cells if x != cell]:
+                    if cell.candidates == other_cell.candidates:
+                        # Naked pair found; remove candidates from everywhere else
+                        for cell_to_remove in [x for x in self.cells if (x != cell and x != other_cell)]:
+                            if cell_to_remove.candidates.intersection(cell.candidates):
+                                cell_to_remove.candidates = cell_to_remove.candidates - cell.candidates
+                                changed = True
         return changed
 
 
@@ -86,7 +101,7 @@ class Box(CellContainer):
     pass
 
 
-with open('./puzzles/easy.txt', 'r') as f:
+with open('./puzzles/hard.txt', 'r') as f:
     START = random.choice(f.readlines())
 
 
@@ -134,6 +149,9 @@ class Board:
                     changed = True
                 elif container.cells_with_only_one_candidate():
                     print('Cell(s) contained only one candidate')
+                    changed = True
+                elif container.naked_pairs():
+                    print('Naked pair(s) found')
                     changed = True
 
                 if changed:
