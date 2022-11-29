@@ -53,13 +53,19 @@ class Board:
                 elif container.cells_with_only_one_candidate():
                     print('Cell(s) contained only one candidate')
                     changed = True
-                elif container.naked_pairs():
-                    print('Naked pair(s) found')
+                elif container.naked_tuples(2):
+                    print('Naked PAIR(s) found')
+                    changed = True
+                elif container.naked_tuples(3):
+                    print('Naked TRIPLE(s) found')
+                    changed = True
+                elif container.naked_tuples(4):
+                    print('Naked QUADRUPLES(s) found')
                     changed = True
 
                 if changed:
                     print(self)
-                    time.sleep(0.03)
+                    time.sleep(0.01)
                     break
 
         print(f"\nNo more changes possible. Board solved? {self.solved()}")

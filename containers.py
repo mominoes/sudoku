@@ -1,3 +1,5 @@
+import itertools
+
 class Cell:
     def __init__(self, val=0, row=None, col=None, box=None):
         self.candidates = set([val]) if val else set(range(1,10))
@@ -69,21 +71,26 @@ class CellContainer():
                     changed = changed or other_cell.remove(cell.get_single())
         return changed
 
-    def naked_pairs(self):
-        """If any two cells contain only the same two candidates, remove those candidates from all other cells
+    def naked_tuples(self, n=2):
+        """If any n cells contain only the same n candidates, remove those candidates from all other cells
         Return True if any were removed, else false
         """
         changed = False
-        for cell in self.cells:
-            if len(cell.candidates) == 2:
-                for other_cell in [x for x in self.cells if x != cell]:
-                    if cell.candidates == other_cell.candidates:
-                        # Naked pair found; remove candidates from everywhere else
-                        for cell_to_remove in [x for x in self.cells if (x != cell and x != other_cell)]:
-                            if cell_to_remove.candidates.intersection(cell.candidates):
-                                cell_to_remove.candidates = cell_to_remove.candidates - cell.candidates
-                                changed = True
+        for cell_tuple in itertools.combinations(self.cells, n):
+            candidates = set()
+            for cell in cell_tuple:
+                candidates = candidates.union(cell.candidates)
+                if len(candidates) > n:
+                    break
+            if len(candidates) > n:
+                continue
+
+            for cell_to_remove in [x for x in self.cells if x not in cell_tuple]:
+                if cell_to_remove.candidates.intersection(cell.candidates):
+                    cell_to_remove.candidates = cell_to_remove.candidates - cell.candidates
+                    changed = True
         return changed
+
 
 
 
