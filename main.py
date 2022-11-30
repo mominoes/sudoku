@@ -45,8 +45,8 @@ class Board:
     def solve(self):
         changed = True
         while changed:
-            changed = False
-            for container in self.boxes + self.rows + self.cols:
+            for container in self.rows + self.cols + self.boxes:
+                changed = False
                 if container.candidates_once_in_container():
                     print('Candidate(s) appeared only once in container')
                     changed = True
@@ -62,11 +62,13 @@ class Board:
                 elif container.naked_tuples(4):
                     print('Naked QUADRUPLES(s) found')
                     changed = True
+                elif container.hidden_pairs():
+                    print('Hidden pair(s) found')
+                    changed = True
 
                 if changed:
                     print(self)
                     time.sleep(0.01)
-                    break
 
         print(f"\nNo more changes possible. Board solved? {self.solved()}")
 
