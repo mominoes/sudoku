@@ -91,27 +91,26 @@ class CellContainer():
                     changed = True
         return changed
 
-    def hidden_pairs(self):
-        """If any two candidates only appear in the same two cells, remove all other candidates from those cells
+    def hidden_tuples(self, n=2):
+        """If any n candidates only appear in the same n cells, remove all other candidates from those cells
         Return True if any were removed, else false
         """
         changed = False
-        candidates_appearing_twice = set()
+        candidates_appearing_upto_n_times = set()
         for can in range(1, 10):
-            if len([None for cell in self.cells if can in cell.candidates]) == 2:
-                candidates_appearing_twice.add(can)
+            if len([None for cell in self.cells if can in cell.candidates]) <= n:
+                candidates_appearing_upto_n_times.add(can)
 
-        if len(candidates_appearing_twice) >= 2:
-            for can_pair in itertools.combinations(candidates_appearing_twice, 2):
-                cells = [cell for cell in self.cells if cell.candidates.intersection(can_pair)]
-                if len(cells) == 2:
+        if len(candidates_appearing_upto_n_times) >= n:
+            for can_tuple in itertools.combinations(candidates_appearing_upto_n_times, n):
+                cells = [cell for cell in self.cells if cell.candidates.intersection(can_tuple)]
+                if len(cells) == n:
                     for cell in cells:
-                        if cell.candidates != cell.candidates.intersection(can_pair):
-                            cell.candidates = cell.candidates.intersection(can_pair)
+                        if cell.candidates != cell.candidates.intersection(can_tuple):
+                            cell.candidates = cell.candidates.intersection(can_tuple)
                             changed = True
 
         return changed
-
 
 
 class Row(CellContainer):

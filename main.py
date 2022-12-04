@@ -57,13 +57,19 @@ class Board:
                     print('Naked PAIR(s) found')
                     changed = True
                 elif container.naked_tuples(3):
-                    print('Naked TRIPLE(s) found')
+                    print('Naked TRIPLET(s) found')
                     changed = True
                 elif container.naked_tuples(4):
-                    print('Naked QUADRUPLES(s) found')
+                    print('Naked QUADRUPLET(s) found')
                     changed = True
-                elif container.hidden_pairs():
-                    print('Hidden pair(s) found')
+                elif container.hidden_tuples(2):
+                    print('Hidden PAIR(s) found')
+                    changed = True
+                elif container.hidden_tuples(3):
+                    print('Hidden TRIPLET(s) found')
+                    changed = True
+                elif container.hidden_tuples(4):
+                    print('Hidden QUADTRUPLET(s) found')
                     changed = True
 
                 if changed:

@@ -13,7 +13,7 @@ Puzzles taken from https://github.com/dimitri/sudoku
     - [x] naked pairs
     - [x] naked tuples
     - [x] hidden pairs
-    - [ ] hidden tuples,
+    - [x] hidden tuples,
 - [ ] Implement complex strategies between 2+ containers:
     - [ ] X-Wing
     - [ ] Swordfish
