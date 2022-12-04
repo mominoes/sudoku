@@ -49,33 +49,37 @@ class Board:
         while changed:
             for container in self.rows + self.cols + self.boxes:
                 changed = False
-                if container.candidates_once_in_container():
-                    print('Candidate(s) appeared only once in container')
-                    strategy_usage_stats['candidates_once_in_container'] += 1
+
+                if container.naked_tuples(1):
+                    print('Naked SINGLE(s) found')
+                    strategy_usage_stats['naked_singles'] += 1
                     changed = True
-                elif container.cells_with_only_one_candidate():
-                    print('Cell(s) contained only one candidate')
-                    strategy_usage_stats['candidates_once_in_container'] += 1
+                elif container.hidden_tuples(1):
+                    print('Hidden SINGLE(s) found')
+                    strategy_usage_stats['hidden_singles'] += 1
                     changed = True
+
                 elif container.naked_tuples(2):
                     print('Naked PAIR(s) found')
                     strategy_usage_stats['naked_pairs'] += 1
-                    changed = True
-                elif container.naked_tuples(3):
-                    print('Naked TRIPLET(s) found')
-                    strategy_usage_stats['naked_triplets'] += 1
-                    changed = True
-                elif container.naked_tuples(4):
-                    print('Naked QUADRUPLET(s) found')
-                    strategy_usage_stats['naked_quadruplets'] += 1
                     changed = True
                 elif container.hidden_tuples(2):
                     print('Hidden PAIR(s) found')
                     strategy_usage_stats['hidden_pairs'] += 1
                     changed = True
+
+                elif container.naked_tuples(3):
+                    print('Naked TRIPLET(s) found')
+                    strategy_usage_stats['naked_triplets'] += 1
+                    changed = True
                 elif container.hidden_tuples(3):
                     print('Hidden TRIPLET(s) found')
                     strategy_usage_stats['hidden_triplets'] += 1
+                    changed = True
+
+                elif container.naked_tuples(4):
+                    print('Naked QUADRUPLET(s) found')
+                    strategy_usage_stats['naked_quadruplets'] += 1
                     changed = True
                 elif container.hidden_tuples(4):
                     print('Hidden QUADTRUPLET(s) found')

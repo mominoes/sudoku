@@ -41,39 +41,10 @@ class CellContainer():
     def __str__(self):
         return str([str(cell) for cell in self.cells])
 
-    def candidates_once_in_container(self):
-        """For candidates appearing only in one cell within a container, remove all other candidates from that cell.
-        Return True if any were removed, else false
-        """
-        changed = False
-        for can in range(1, 10):
-            appearances = 0
-            for cell in self.cells:
-                if can in cell.candidates:
-                    last_cell = cell
-                    appearances += 1
-                if appearances > 1:
-                    break
-            if appearances == 1:
-                changed = changed or last_cell.set(can)
-
-        return changed
-
-
-    def cells_with_only_one_candidate(self):
-        """If a cell contains only one candidate, remove that candidate from all other cells within container
-        Return True if any was removed, else false
-        """
-        changed = False
-        for cell in self.cells:
-            if cell.got():
-                for other_cell in [x for x in self.cells if x != cell]:
-                    changed = changed or other_cell.remove(cell.get_single())
-        return changed
-
-    def naked_tuples(self, n=2):
+    def naked_tuples(self, n=1):
         """If any n cells contain only the same n candidates, remove those candidates from all other cells
         Return True if any were removed, else false
+        NB: n=1 is the case of a cell containing only one candidate
         """
         changed = False
         for cell_tuple in itertools.combinations(self.cells, n):
@@ -91,9 +62,10 @@ class CellContainer():
                     changed = True
         return changed
 
-    def hidden_tuples(self, n=2):
+    def hidden_tuples(self, n=1):
         """If any n candidates only appear in the same n cells, remove all other candidates from those cells
         Return True if any were removed, else false
+        NB: n=1 is the case of a candidate appearing only in one cell within the neighbourhood
         """
         changed = False
         candidates_appearing_upto_n_times = set()
