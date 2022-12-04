@@ -24,5 +24,5 @@ Puzzles taken from https://github.com/dimitri/sudoku
 - [ ] Make runnable from commandline
 - [ ] Replace text representation with UI
 - [ ] Include strategy / code overview in README
-- [ ] Add strategy usage stats
+- [x] Add strategy usage stats
 - [ ] Add unit tests

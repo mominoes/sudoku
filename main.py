@@ -1,6 +1,7 @@
 import time
 import random
 from containers import *
+from collections import defaultdict
 
 
 
@@ -43,33 +44,42 @@ class Board:
         return True
 
     def solve(self):
+        strategy_usage_stats = defaultdict(lambda: 0)
         changed = True
         while changed:
             for container in self.rows + self.cols + self.boxes:
                 changed = False
                 if container.candidates_once_in_container():
                     print('Candidate(s) appeared only once in container')
+                    strategy_usage_stats['candidates_once_in_container'] += 1
                     changed = True
                 elif container.cells_with_only_one_candidate():
                     print('Cell(s) contained only one candidate')
+                    strategy_usage_stats['candidates_once_in_container'] += 1
                     changed = True
                 elif container.naked_tuples(2):
                     print('Naked PAIR(s) found')
+                    strategy_usage_stats['naked_pairs'] += 1
                     changed = True
                 elif container.naked_tuples(3):
                     print('Naked TRIPLET(s) found')
+                    strategy_usage_stats['naked_triplets'] += 1
                     changed = True
                 elif container.naked_tuples(4):
                     print('Naked QUADRUPLET(s) found')
+                    strategy_usage_stats['naked_quadruplets'] += 1
                     changed = True
                 elif container.hidden_tuples(2):
                     print('Hidden PAIR(s) found')
+                    strategy_usage_stats['hidden_pairs'] += 1
                     changed = True
                 elif container.hidden_tuples(3):
                     print('Hidden TRIPLET(s) found')
+                    strategy_usage_stats['hidden_triplets'] += 1
                     changed = True
                 elif container.hidden_tuples(4):
                     print('Hidden QUADTRUPLET(s) found')
+                    strategy_usage_stats['hidden_quadruplets'] += 1
                     changed = True
 
                 if changed:
@@ -77,6 +87,7 @@ class Board:
                     time.sleep(0.01)
 
         print(f"\nNo more changes possible. Board solved? {self.solved()}")
+        print(strategy_usage_stats)
 
 
     def __repr__(self):
