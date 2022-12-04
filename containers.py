@@ -3,9 +3,9 @@ import itertools
 class Cell:
     def __init__(self, val=0, row=None, col=None, box=None):
         self.candidates = set([val]) if val else set(range(1,10))
-        self.row:Row = row
-        self.col:Col = col
-        self.box:Box = box
+        self.row:CellContainer = row
+        self.col:CellContainer = col
+        self.box:CellContainer = box
         self.got = lambda : len(self.candidates) == 1
         self.get_single = lambda : next(iter(self.candidates)) if self.got() else None
 
@@ -83,13 +83,3 @@ class CellContainer():
                             changed = True
 
         return changed
-
-
-class Row(CellContainer):
-    pass
-
-class Col(CellContainer):
-    pass
-
-class Box(CellContainer):
-    pass

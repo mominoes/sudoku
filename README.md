@@ -20,7 +20,7 @@ Puzzles taken from https://github.com/dimitri/sudoku
     - [ ] n-fish
 - [ ] Implement complex search-based strategies:
     - [ ] Forcing chains
-- [ ] Move CellContainer and Cell classes to standalone file. Cleanup un-needed Row/Col/Box classes
+- [x] Move CellContainer and Cell classes to standalone file. Cleanup un-needed Row/Col/Box classes
 - [ ] Make runnable from commandline
 - [ ] Replace text representation with UI
 - [ ] Include strategy / code overview in README
