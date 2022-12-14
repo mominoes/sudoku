@@ -45,48 +45,51 @@ class Board:
 
     def solve(self):
         strategy_usage_stats = defaultdict(lambda: 0)
-        changed = True
-        while changed:
+        stuck = False
+        while not stuck:
+            stuck = True
+
             for container in self.rows + self.cols + self.boxes:
-                changed = False
+                print_board = False
 
                 if container.naked_tuples(1):
                     print('Naked SINGLE(s) found')
                     strategy_usage_stats['naked_singles'] += 1
-                    changed = True
+                    stuck, print_board = False, True
                 elif container.hidden_tuples(1):
                     print('Hidden SINGLE(s) found')
                     strategy_usage_stats['hidden_singles'] += 1
-                    changed = True
+                    stuck, print_board = False, True
 
                 elif container.naked_tuples(2):
                     print('Naked PAIR(s) found')
                     strategy_usage_stats['naked_pairs'] += 1
-                    changed = True
+                    stuck, print_board = False, True
                 elif container.hidden_tuples(2):
                     print('Hidden PAIR(s) found')
                     strategy_usage_stats['hidden_pairs'] += 1
-                    changed = True
+                    stuck, print_board = False, True
 
                 elif container.naked_tuples(3):
                     print('Naked TRIPLET(s) found')
                     strategy_usage_stats['naked_triplets'] += 1
-                    changed = True
+                    stuck, print_board = False, True
                 elif container.hidden_tuples(3):
                     print('Hidden TRIPLET(s) found')
                     strategy_usage_stats['hidden_triplets'] += 1
-                    changed = True
+                    stuck, print_board = False, True
+
 
                 elif container.naked_tuples(4):
                     print('Naked QUADRUPLET(s) found')
                     strategy_usage_stats['naked_quadruplets'] += 1
-                    changed = True
+                    stuck, print_board = False, True
                 elif container.hidden_tuples(4):
                     print('Hidden QUADTRUPLET(s) found')
                     strategy_usage_stats['hidden_quadruplets'] += 1
-                    changed = True
+                    stuck, print_board = False, True
 
-                if changed:
+                if print_board:
                     print(self)
                     time.sleep(0.01)
 
